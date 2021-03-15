@@ -1,12 +1,15 @@
 # 게시판 프로젝트(1인개발)
 
 본래의 게시판기능과 자주사용하는 웹사이트의 기능들을 조금씩 붙여서 넣어서 프로젝트를 만듦.
+기존 J_s_Board의 Firebase를 이용하여 백엔드를 구현한것을 Express RestAPI를 이용하여 CRUD 구현.
+
+기존 Firebase 구현 Git 주소 : https://github.com/Gwontaejun/J_s_Board
 
 기술스택
 
 Front-End : Html,Css,React
 
-Back-End : Firebase
+Back-End : Express
 
 ---------------------------------------
 ## 폴더 및 파일 정리설명
@@ -14,10 +17,11 @@ Back-End : Firebase
 2. /src/component/Items 폴더(필요한 버튼, 그리드, 리스트 등 간단하게 떼와서 사용가능한 아이템을 모아놓음)
 3. /src/component/store 폴더(FireStore의 사용을 위한 Firebase의 설정 및 다크모드 구현을 위한 Redux의 Store를 모아놓음)
 4. /src/component/css 폴더(css폴더를 모아놓음)
+5. /src/server 폴더(Express RestAPI를 위한 파일을 넣어놓음)
 
 ---------------------------------------
 ## 주요기능
-1. Firebase를 이용한 전반적인 CRUD 기능.
+1. Express의 RestAPI를 이용한 전반적인 CRUD 기능.
 2. Firebase의 Storage를 통한 이미지 업로드
 
 ---------------------------------------
