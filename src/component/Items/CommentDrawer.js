@@ -1,7 +1,7 @@
 import { Button, Card, CardContent, Drawer, TextField, Typography } from "@material-ui/core";
 import { CommentOutlined, CreateOutlined } from "@material-ui/icons";
+import axios from "axios";
 import React, { Component } from "react";
-import firestore from '../store/fireStore';
 
 export default class CommentDrawer extends Component {
 
@@ -16,23 +16,21 @@ export default class CommentDrawer extends Component {
 
     // 컴포넌트가 렌더되기 전에 실행하는 함수.
     componentWillMount() {
-        this.firebaseSetting();
+        this.databaseSetting();
     }
 
-    /*파이어베이스의 파이어스토어의 값을 불러와서
+    /*RestAPI를 이용하여 데이터베이스의 값을 불러와서
     this.state.comment_Data에 넣어주고있음. */
-    firebaseSetting = () => {
-        var comment_Data_Array = [];
-        const board_Code = this.props.board_Code;
-
-        // Board_Code의 값을 key값으로 하여 데이터를 받아옴.
-        firestore.firestore.firestore().collection("Comment")
-            .where("Board_Code", "==", board_Code).get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    comment_Data_Array = comment_Data_Array.concat(doc.data());
-                    //데이터를 복제하여 concat으로 붙여넣어 데이터의 불변성을 유지함.
+    databaseSetting = () => {
+        const Board_No = this.props.Board_No;
+        axios.get('http://j-s-board-express-backend.herokuapp.com/CommentRead?Board_No=' + Board_No)
+            .then((Response) => {
+                this.setState({
+                    comment_Data: Response.data
                 });
-                this.setState({ comment_Data: comment_Data_Array });
+            })
+            .catch(error => {
+                console.log("CommentRead error", error);
             });
     }
 
@@ -43,20 +41,30 @@ export default class CommentDrawer extends Component {
 
     // 댓글 작성버튼을 눌렀을때 실행하는 함수.
     commentWrite = () => {
-        const Auth = firestore.firestore.auth().currentUser;
+        const Auth = window.localStorage.getItem("LoginData");
         if (Auth !== null) { // 현재 로그인상태인지 확인하기 위함.
             if (this.state.comment_Content.replace(/ /g, "").length !== 0) { // 작성하려는 댓글의 빈값을 확인함.
-                firestore.firestore.firestore().collection("Comment").add({
-                    Board_Code: this.props.board_Code,
-                    Comment_Content: this.state.comment_Content,
-                    User_Id: Auth.uid,
-                    User_Name: Auth.displayName,
-                    Comment_WriteDate: new Date(),
-                })
-                    .then((docRef) => {
-                        this.firebaseSetting();
-                        this.setState({ comment_Content: "" });
+
+                axios.post("http://j-s-board-express-backend.herokuapp.com/CommentInsert",
+                    {
+                        Board_No: this.props.Board_No,
+                        Comment_Content: this.state.comment_Content,
+                        Comment_WriteDate: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
+                        User_Id: JSON.parse(Auth).uid,
+                        User_Name: JSON.parse(Auth).displayName,
+                    },
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Accept': 'application/json'
+                        }
                     })
+                .then(() => {
+                    this.databaseSetting();
+                    this.setState({ comment_Content: "" });
+                })
+                
+                
             } else alert("댓글을 적어주십시오.");
         } else alert("로그인을 하셔야합니다.");
     }
@@ -75,8 +83,6 @@ export default class CommentDrawer extends Component {
                         </div>
                         <div style={{ height: "75%", width: "100%", overflowY: "auto" }}>
                             {this.state.comment_Data.map((data, index) => {
-                                const secondsToDate = new Date(data.Comment_WriteDate.seconds * 1000);
-                                const fullDate = secondsToDate.getFullYear() + "년" + (secondsToDate.getMonth() + 1) + "월" + secondsToDate.getDate() + "일";
                                 return (
                                     <Card key={index} variant="outlined" style={{ width: "95%", margin: "1% auto", borderColor: "black" }}>
                                         <CardContent>
@@ -84,10 +90,7 @@ export default class CommentDrawer extends Component {
                                                 {data.Comment_Content}
                                             </Typography>
                                             <Typography color="textSecondary">
-                                                {data.User_Name} / {fullDate}
-                                            </Typography>
-                                            <Typography color="textSecondary">
-
+                                                {data.User_Name} / {data.Comment_WriteDate}
                                             </Typography>
                                         </CardContent>
                                     </Card>

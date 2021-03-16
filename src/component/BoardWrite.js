@@ -16,14 +16,22 @@ class BoardWrite extends Component {
             board_Content: "",
             imageFile: "",
             Count: [],
-            openText: "",
-            openState: false,
-            severity: "success",
+            board_No: 0,
         }
 
         this.board_Title = null;
     }
 
+
+    componentWillMount() {
+        axios.get('http://j-s-board-express-backend.herokuapp.com/BoardNoGet')
+            .then((Response) => {
+                console.log("board_No", Response.data.Board_No);
+                this.setState({
+                    board_No: Response.data.Board_No,
+                });
+            });
+    }
 
     // 이미지 첨부 후 글 작성버튼을 눌렀을때 실행하는 함수.
     fileUpload = (Image_Name) => {
@@ -53,13 +61,13 @@ class BoardWrite extends Component {
     databaseWriteData = () => {
         let Image_Name;
         const Board_Code = this.state.board_Theme + "_" + (parseInt(this.state.Count[this.state.board_Theme + "_Count"]) + 1);
-        const User_Id = firestore.firestore.auth().currentUser.uid;
+        const User_Id = JSON.parse(window.localStorage.getItem("LoginData")).uid;
         let User_Name;
         const Board_Theme = this.state.board_Theme;
 
         // 이름 비공개 버튼을 누르면 이름이 비공개값으로 들어가도록 하기 위함.
         if (this.state.userNameInvisible === false) {
-            User_Name = firestore.firestore.auth().currentUser.displayName;
+            User_Name = JSON.parse(window.localStorage.getItem("LoginData")).displayName;
         } else User_Name = "비공개";
 
         // 이미지가 첨부되었는지 확인하기 위함.
@@ -69,12 +77,13 @@ class BoardWrite extends Component {
 
 
         // 글 작성을 하는 작업(RestAPI를 이용해 database에 값을 저장하는 작업)
-        axios.post("http://localhost:3002/BoardInsert",
+        axios.post("http://j-s-board-express-backend.herokuapp.com/BoardInsert",
             {
+                Board_No: parseInt(this.state.board_No) + 1,
                 Board_Theme: Board_Theme,
                 Board_Title: this.state.board_Title,
                 Board_Content: this.state.board_Content,
-                Board_WriteDate: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
+                Board_WriteDate: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() +" "+ new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
                 User_Id: User_Id,
                 User_Name: User_Name,
             },
@@ -83,9 +92,10 @@ class BoardWrite extends Component {
                     'Content-type': 'application/json',
                     'Accept': 'application/json'
                 }
+            }).then(() => {
+                window.location.href = '/Theme/' + this.state.board_Theme;
             })
-
-        window.location.href = '/Theme/' + Board_Theme;
+        
     }
 
     boardWriteEvent = () => {

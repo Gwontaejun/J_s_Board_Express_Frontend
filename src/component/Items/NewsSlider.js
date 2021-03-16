@@ -32,7 +32,6 @@ export default class NewsSlider extends Component {
         };
 
         axios.request(options).then(function (response) {
-            console.log(response.data);
             this.setState({
                 newsData: this.state.newsData.concat(response.data.articles),
             });

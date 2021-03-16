@@ -40,7 +40,7 @@ class BoardList extends Component {
     const board_Theme = this.props.match.params.Board_Theme;
 
     // 게시판의 테마를 정하여 값을 불러오는 함수.(게시판 종류에 따라)
-    axios.get('http://localhost:3002/BoardList?Board_Theme='+board_Theme)
+    axios.get('http://j-s-board-express-backend.herokuapp.com/BoardList?Board_Theme='+board_Theme)
     .then((Response) => {
       this.setState({ board_Data: Response.data });
 
@@ -62,8 +62,8 @@ class BoardList extends Component {
   render() {
     let writeButton;
 
-    // `현재 로그인상태일시 글쓰기 버튼이 활성화되도록 함.`
-    if (firestore.firestore.auth().currentUser !== null) {
+    // 현재 로그인상태일시 글쓰기 버튼이 활성화되도록 함.
+    if (window.localStorage.getItem("LoginData") !== null) {
       writeButton =
         <Link to="/Write">
           <button className={"material_Button"} style={{ marginBottom: "0px", position: "absolute", bottom: 13, width: "100%" }}>

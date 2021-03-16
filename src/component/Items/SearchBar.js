@@ -55,6 +55,11 @@ class SearchBar extends Component {
                     variant={"outlined"}
                     onChange={this.handleChange}
                     value={this.state.searchText}
+                    onKeyPress={(ev) => { //엔터 입력시 작동하는 이벤트
+                        if (ev.key === 'Enter') {
+                            this.searchButtonClick();
+                        }
+                      }}
                 />
                 <IconButton onClick={this.searchButtonClick}>
                     <SearchIcon color="action" fontSize="large" />

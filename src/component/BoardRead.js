@@ -59,7 +59,7 @@ class BoardRead extends Component {
         let User_Name;
 
         if (this.state.userNameInvisible === false) {
-            User_Name = firestore.firestore.auth().currentUser.displayName;
+            User_Name = JSON.parse(window.localStorage.getItem("LoginData")).displayName;
         } else User_Name = "비공개";
 
         if (this.state.imageFile.name === undefined) {
@@ -68,7 +68,7 @@ class BoardRead extends Component {
 
         
         // 글 수정을 하는 작업(현재 Board_No의 값을 key로하여 값을 수정함)
-        axios.patch("http://localhost:3002/BoardUpdate?Board_No=" + this.props.match.params.Board_No,
+        axios.patch("http://j-s-board-express-backend.herokuapp.com/BoardUpdate?Board_No=" + this.props.match.params.Board_No,
             {
                 Board_Title: this.state.board_Title,
                 Board_Content: this.state.board_Content,
@@ -112,7 +112,7 @@ class BoardRead extends Component {
         }
 
         // 글 삭제를 하는작업(현재 Board_No의 값을 key로 하여 데이터를 삭제)
-        axios.delete("http://localhost:3002/BoardDelete",
+        axios.delete("http://j-s-board-express-backend.herokuapp.com/BoardDelete",
             {
                 data: {
                     Board_No: this.props.match.params.Board_No
@@ -159,7 +159,7 @@ class BoardRead extends Component {
     this.state.board_Data에 넣어주고있음. */
     databaseSetting = () => {
         // Board_No의 값을 key값으로 하여 데이터를 받아옴.
-        axios.get('http://localhost:3002/BoardRead?Board_No=' + this.props.match.params.Board_No)
+        axios.get('http://j-s-board-express-backend.herokuapp.com/BoardRead?Board_No=' + this.props.match.params.Board_No)
             .then((Response) => {
                 // 게시판의 테마에따라 보여지는 값이 달라지게 하기위함.
                 switch (Response.data.Board_Theme) {
@@ -205,8 +205,8 @@ class BoardRead extends Component {
         let updateButton;
 
         // 현재 로그인상태일시 수정버튼이 활성화 되도록 함.
-        if (firestore.firestore.auth().currentUser !== null) {
-            if (this.state.board_Data.User_Id === firestore.firestore.auth().currentUser.uid) {
+        if (window.localStorage.getItem("LoginData") !== null) {
+            if (this.state.board_Data.User_Id === JSON.parse(window.localStorage.getItem("LoginData")).uid) {
                 updateButton =
                     <button className={"material_Button"} onClick={() => this.setState({ mode: "update" })}
                         style={{ marginBottom: "0px", width: "100%", position: "absolute", bottom: 13 }}>
@@ -339,7 +339,7 @@ class BoardRead extends Component {
                     <CommentDrawer
                         open={this.state.drawerState}
                         onClose={this.closeDrawer}
-                        board_Code={this.props.match.params.Board_No}
+                        Board_No={this.props.match.params.Board_No}
                     />
                 </div>
             </div>

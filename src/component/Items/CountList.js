@@ -15,7 +15,7 @@ class CountList extends Component {
     this.databaseSetting();
   }
 
-  /*파이어베이스의 파이어스토어의 값을 불러와서
+  /*RestAPI를 이용하여 데이터베이스의 값을 불러와서
     this.state.board_Data에 넣어주고있음. */
   databaseSetting = () => {
     let orderType;
@@ -25,21 +25,11 @@ class CountList extends Component {
       orderType = this.props.orderType;
     }
 
-    if (orderType === "Read_Count") {
-      axios.get('http://localhost:3002/ReadCountList')
-        .then((Response) => {
-          console.log(Response);
-          this.setState({ board_Data: Response.data });
-        });
-    }
-
-    if (orderType === "Board_WriteDate") {
-      axios.get('http://localhost:3002/WriteDateList')
-        .then((Response) => {
-          console.log(Response);
-          this.setState({ board_Data: Response.data });
-        });
-    }
+    axios.get('http://j-s-board-express-backend.herokuapp.com/CountList?Order_Type=' + orderType)
+      .then((Response) => {
+        console.log("Response",Response);
+        this.setState({ board_Data: Response.data });
+      });
   }
 
   render() {
@@ -49,7 +39,7 @@ class CountList extends Component {
           <h1 style={{ margin: "0px" }}>{this.props.TypeText}</h1>
         </div>
         <div style={{ display: "flex", width: "100%", height: "85%" }}>
-          <div style={{ width: "100%", height: "100%" }}>
+          <div style={{ width: "100%", height: "100%", overflowY: "auto" }}>
             <DataGrid
               getRowId={(row) => row.Board_No}
               columns={[
