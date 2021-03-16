@@ -5,7 +5,9 @@
 
 기존 Firebase 구현 Git 주소 : https://github.com/Gwontaejun/J_s_Board
 
-기술스택
+---------------------------------------
+
+### 기술스택
 
 Front-End : Html,Css,React
 
