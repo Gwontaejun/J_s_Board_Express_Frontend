@@ -4,9 +4,9 @@
 
 프론트엔드와 백엔드의 구별을 하고, Firebase만을 사용함으로써 얻지못한 결과를 얻기위해 Express를 사용하여 CRUD를 구현함.
 
-기존 Firebase 구현 Git 주소 : https://github.com/Gwontaejun/J_s_Board
+### 기존 Firebase 구현 Git 주소 : https://github.com/Gwontaejun/J_s_Board
 
-서비스 주소 : https://j-s-board.netlify.app/
+### 서비스 주소 : https://j-s-board.netlify.app/
 
 (※ 반응형웹을 구현한것이 아니라 24인치모니터 기준 풀스크린으로 보시는것을 권장드립니다.)
 
