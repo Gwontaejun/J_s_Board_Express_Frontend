@@ -2,7 +2,9 @@
 
 본래 J_s_Board의 Firebase를 이용한 백엔드 구현을 Node.js의 Express를 사용하여 백엔드를 구현함으로써
 
-프론트엔드와 백엔드의 구별을 하고, Firebase만을 사용함으로써 얻지못한 결과를 얻기위해 Express를 사용하여 CRUD를 구현함.
+프론트엔드와 백엔드의 구별을 하고,
+
+Firebase만을 사용함으로써 얻지못한 결과를 얻기위해 Express를 사용하여 CRUD를 구현함.
 
 기존 Firebase 구현 Git 주소 : https://github.com/Gwontaejun/J_s_Board
 
