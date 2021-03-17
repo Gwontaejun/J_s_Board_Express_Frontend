@@ -40,7 +40,7 @@ class BoardRead extends Component {
             User_Name = JSON.parse(window.localStorage.getItem("LoginData")).displayName;
         } else User_Name = "비공개";
 
-        
+
         // 글 수정을 하는 작업(현재 Board_No의 값을 key로하여 값을 수정함)
         axios.patch("https://j-s-board-express-backend.herokuapp.com/BoardUpdate?Board_No=" + this.props.match.params.Board_No,
             {
@@ -97,10 +97,10 @@ class BoardRead extends Component {
                     'Content-type': 'application/json',
                     'Accept': 'application/json'
                 }
+            }).then(() => {
+                // 삭제 후 BoardList 페이지로 로드
+                window.location.href = '/Theme/' + this.state.board_Theme;
             });
-
-        // 삭제 후 BoardList 페이지로 로드
-        window.location.href = '/Theme/' + this.state.board_Theme;
     }
 
 
@@ -135,7 +135,7 @@ class BoardRead extends Component {
                         imageArray.push(url);
                     });
                     this.setState({ imageUrl: imageArray });
-                } 
+                }
 
                 // 게시판의 테마에따라 보여지는 값이 달라지게 하기위함.
                 switch (Response.data.Board_Theme) {

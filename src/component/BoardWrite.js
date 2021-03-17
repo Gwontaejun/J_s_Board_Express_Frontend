@@ -71,7 +71,7 @@ class BoardWrite extends Component {
         // 이미지가 첨부되었는지 확인하기 위함.
         if (this.state.imageFile.name === undefined) {
             Image_Name = "";
-        } else Image_Name = this.state.board_No + "-" + this.state.imageFile.name;
+        } else Image_Name = (this.state.board_No+1) + "-" + this.state.imageFile.name;
 
 
         // 글 작성을 하는 작업(RestAPI를 이용해 database에 값을 저장하는 작업)
