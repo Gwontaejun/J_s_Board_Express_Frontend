@@ -6,6 +6,10 @@
 
 기존 Firebase 구현 Git 주소 : https://github.com/Gwontaejun/J_s_Board
 
+서비스 주소 : https://j-s-board.netlify.app/
+
+(※ 반응형웹을 구현한것이 아니라 24인치모니터 기준 풀스크린으로 보시는것을 권장드립니다.)
+
 ---------------------------------------
 
 ### 기술스택
