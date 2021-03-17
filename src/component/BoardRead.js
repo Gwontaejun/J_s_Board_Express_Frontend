@@ -68,7 +68,7 @@ class BoardRead extends Component {
 
         
         // 글 수정을 하는 작업(현재 Board_No의 값을 key로하여 값을 수정함)
-        axios.patch("http://j-s-board-express-backend.herokuapp.com/BoardUpdate?Board_No=" + this.props.match.params.Board_No,
+        axios.patch("https://j-s-board-express-backend.herokuapp.com/BoardUpdate?Board_No=" + this.props.match.params.Board_No,
             {
                 Board_Title: this.state.board_Title,
                 Board_Content: this.state.board_Content,
@@ -112,7 +112,7 @@ class BoardRead extends Component {
         }
 
         // 글 삭제를 하는작업(현재 Board_No의 값을 key로 하여 데이터를 삭제)
-        axios.delete("http://j-s-board-express-backend.herokuapp.com/BoardDelete",
+        axios.delete("https://j-s-board-express-backend.herokuapp.com/BoardDelete",
             {
                 data: {
                     Board_No: this.props.match.params.Board_No
@@ -159,7 +159,7 @@ class BoardRead extends Component {
     this.state.board_Data에 넣어주고있음. */
     databaseSetting = () => {
         // Board_No의 값을 key값으로 하여 데이터를 받아옴.
-        axios.get('http://j-s-board-express-backend.herokuapp.com/BoardRead?Board_No=' + this.props.match.params.Board_No)
+        axios.get('https://j-s-board-express-backend.herokuapp.com/BoardRead?Board_No=' + this.props.match.params.Board_No)
             .then((Response) => {
                 // 게시판의 테마에따라 보여지는 값이 달라지게 하기위함.
                 switch (Response.data.Board_Theme) {

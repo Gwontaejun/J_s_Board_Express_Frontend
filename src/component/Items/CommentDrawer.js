@@ -23,7 +23,7 @@ export default class CommentDrawer extends Component {
     this.state.comment_Data에 넣어주고있음. */
     databaseSetting = () => {
         const Board_No = this.props.Board_No;
-        axios.get('http://j-s-board-express-backend.herokuapp.com/CommentRead?Board_No=' + Board_No)
+        axios.get('https://j-s-board-express-backend.herokuapp.com/CommentRead?Board_No=' + Board_No)
             .then((Response) => {
                 this.setState({
                     comment_Data: Response.data
@@ -45,7 +45,7 @@ export default class CommentDrawer extends Component {
         if (Auth !== null) { // 현재 로그인상태인지 확인하기 위함.
             if (this.state.comment_Content.replace(/ /g, "").length !== 0) { // 작성하려는 댓글의 빈값을 확인함.
 
-                axios.post("http://j-s-board-express-backend.herokuapp.com/CommentInsert",
+                axios.post("https://j-s-board-express-backend.herokuapp.com/CommentInsert",
                     {
                         Board_No: this.props.Board_No,
                         Comment_Content: this.state.comment_Content,

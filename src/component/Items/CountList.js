@@ -25,7 +25,7 @@ class CountList extends Component {
       orderType = this.props.orderType;
     }
 
-    axios.get('http://j-s-board-express-backend.herokuapp.com/CountList?Order_Type=' + orderType)
+    axios.get('https://j-s-board-express-backend.herokuapp.com/CountList?Order_Type=' + orderType)
       .then((Response) => {
         console.log("Response",Response);
         this.setState({ board_Data: Response.data });

@@ -40,7 +40,7 @@ class BoardList extends Component {
     const board_Theme = this.props.match.params.Board_Theme;
 
     // 게시판의 테마를 정하여 값을 불러오는 함수.(게시판 종류에 따라)
-    axios.get('http://j-s-board-express-backend.herokuapp.com/BoardList?Board_Theme='+board_Theme)
+    axios.get('https://j-s-board-express-backend.herokuapp.com/BoardList?Board_Theme='+board_Theme)
     .then((Response) => {
       this.setState({ board_Data: Response.data });
 

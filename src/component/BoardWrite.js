@@ -24,7 +24,7 @@ class BoardWrite extends Component {
 
 
     componentWillMount() {
-        axios.get('http://j-s-board-express-backend.herokuapp.com/BoardNoGet')
+        axios.get('https://j-s-board-express-backend.herokuapp.com/BoardNoGet')
             .then((Response) => {
                 console.log("board_No", Response.data.Board_No);
                 this.setState({
@@ -77,7 +77,7 @@ class BoardWrite extends Component {
 
 
         // 글 작성을 하는 작업(RestAPI를 이용해 database에 값을 저장하는 작업)
-        axios.post("http://j-s-board-express-backend.herokuapp.com/BoardInsert",
+        axios.post("https://j-s-board-express-backend.herokuapp.com/BoardInsert",
             {
                 Board_No: parseInt(this.state.board_No) + 1,
                 Board_Theme: Board_Theme,

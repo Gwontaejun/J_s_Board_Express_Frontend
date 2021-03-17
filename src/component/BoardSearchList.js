@@ -38,7 +38,7 @@ class BoardList extends Component {
   /*RestAPI를 이용하여 데이터베이스의 값을 불러와서
     this.state.board_Data에 넣어주고있음. */
   databaseSetting = () => {
-    axios.get('http://j-s-board-express-backend.herokuapp.com/Board_Search?Search_Type=' + this.props.match.params.Search_Type + '&' + 'Search_Text=' +this.props.match.params.Search_Text)
+    axios.get('https://j-s-board-express-backend.herokuapp.com/Board_Search?Search_Type=' + this.props.match.params.Search_Type + '&' + 'Search_Text=' +this.props.match.params.Search_Text)
       .then((Response) => {
 
         this.setState({
