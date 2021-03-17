@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import firestore from './store/fireStore';
 import './css/itemCss.css';
 import { Link } from 'react-router-dom';
-import { Checkbox, Chip, FormControl, FormControlLabel, Select, Snackbar } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, Select } from '@material-ui/core';
 import CommentDrawer from './Items/CommentDrawer';
-import { AddPhotoAlternateOutlined, CommentOutlined, CreateOutlined, DeleteForeverOutlined } from '@material-ui/icons';
+import { CommentOutlined, CreateOutlined, DeleteForeverOutlined } from '@material-ui/icons';
 import axios from 'axios';
-import CountList from './Items/CountList'
 
 class BoardRead extends Component {
     constructor(props) {
@@ -16,15 +15,12 @@ class BoardRead extends Component {
             mode: "Read",
             board_Data: [],
             board_Title: "",
+            board_Content: "",
             board_WriteDate: "",
             board_Theme: "",
             board_Theme_Name: "",
             userNameInvisible: false,
-            board_Content: "",
-            imageFile: "",
             imageUrl: "",
-            Count: [],
-            board_WriteDate_update: '',
             drawerState: false,
         }
 
@@ -36,36 +32,13 @@ class BoardRead extends Component {
         this.databaseSetting();
     }
 
-    // 글 수정을 할때 수정하려는 이미지의 업로드를 위한 함수.
-    fileUpload = (Image_Name) => {
-        const storageRef = firestore.firestore.storage().ref();
-
-        var metadata = {
-            contentType: 'image/*'
-        };
-
-        var uploadTask = storageRef.child('images/' + Image_Name)
-            .put(this.state.imageFile, metadata);
-
-        uploadTask.on(firestore.firestore.storage.TaskEvent.STATE_CHANGED,
-            function (snapshot) {
-            }
-        );
-    }
-
     // 글 수정시 실행하는 함수.
     databaseUpdateData = () => {
-        let Image_Name;
-        const Board_Code = this.state.board_Data.Board_Code;
         let User_Name;
 
         if (this.state.userNameInvisible === false) {
             User_Name = JSON.parse(window.localStorage.getItem("LoginData")).displayName;
         } else User_Name = "비공개";
-
-        if (this.state.imageFile.name === undefined) {
-            Image_Name = "";
-        } else Image_Name = Board_Code + "-" + this.state.imageFile.name;
 
         
         // 글 수정을 하는 작업(현재 Board_No의 값을 key로하여 값을 수정함)
@@ -140,17 +113,6 @@ class BoardRead extends Component {
         });
     }
 
-    // 이미지 첨부 시 state에 이미지 데이터를 넣어주기 위해 실행하는 함수.
-    handleImageChange = (e) => {
-        const file = Array.from(e.target.files);
-        this.setState({ imageFile: file[0] });
-    }
-
-    // 이미지를 첨부 후 위에 뜨는 chip의 x버튼을 눌렀을때 사라지도록 하는 함수.
-    handleDelete = () => {
-        this.setState({ imageFile: "" });
-    }
-
     // 작성자를 비공개로할지 결정하는 함수
     handleUserNameInvisible = (e) => {
         this.setState({ userNameInvisible: e.target.checked });
@@ -207,15 +169,14 @@ class BoardRead extends Component {
     }
 
     render() {
-        
-        // Firebase의 Storage특성상 속도가 느려서 0.5초의 시간을 줘서 이미지를 띄워주도록 하는 작업.
+        // Firebase의 Storage특성상 속도가 느려서 0.7초의 시간을 줘서 이미지를 띄워주도록 하는 작업.
         setTimeout(() => {
             if (this.state.imageUrl.length !== 0 && this.state.mode !== "update") {
                 document.getElementById("imageTag").src = this.state.imageUrl;
                 document.getElementById("imageTag").style.display = "block";
                 document.getElementById("board_Content").style.height = "70%";
             }
-        }, 1000);
+        }, 700);
 
         let updateButton;
         // 현재 로그인상태일시 수정버튼이 활성화 되도록 함.
@@ -227,18 +188,6 @@ class BoardRead extends Component {
                         <h2><CreateOutlined style={{ verticalAlign: "bottom" }} /> 수정</h2>
                     </button>;
             }
-        }
-
-
-        let imageNameDisplay = "none";
-        let imageName = undefined;
-
-        // 이미지 첨부 버튼을 눌러 이미지를 첨부 후 위에 뜨는 chip의 보여지는 여부.
-        if (this.state.imageFile === "" || this.state.imageFile === undefined) {
-            imageNameDisplay = "none";
-        } else {
-            imageNameDisplay = "flex";
-            imageName = this.state.imageFile.name;
         }
 
         let content;
@@ -333,14 +282,6 @@ class BoardRead extends Component {
                             name="board_Content" className={"content_Textarea"}
                             value={this.state.board_Content} onChange={this.handleChange}
                         />
-                        <div style={{ position: "absolute", bottom: "5%", right: "10%" }}>
-                            <Chip style={{ position: "absolute", bottom: "100%", right: "0%", display: imageNameDisplay }} variant="outlined" color="secondary" label={imageName} onDelete={this.handleDelete} />
-                            <button className={"material_Button"} color={"primary"} variant={"contained"} onClick={() => this.refs.inputFile.click()}
-                                onChange={this.handleImageChange} component="label" name="imageFile">
-                                <input hidden type="file" accept="image/*" ref="inputFile" />
-                                <h4><AddPhotoAlternateOutlined style={{ verticalAlign: "bottom" }} /> 이미지 첨부</h4>
-                            </button>
-                        </div>
                     </div>
                 </div>
         }

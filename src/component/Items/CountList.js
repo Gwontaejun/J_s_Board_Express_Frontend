@@ -54,7 +54,7 @@ class CountList extends Component {
                   field: 'Board_Title', headerName: "글 제목", flex: 0.8, sortable: false,
                   renderCell: (params) => (
                     <div style={{ height: "100%", width: "100%", textAlign: "left" }}>
-                      <Link to={"/Read/" + params.row.Board_Code} style={{ height: "100%", width: "100%", textDecoration: "none" }} onClick={() => { }}>{params.value}</Link>
+                      <Link to={"/Read/" + params.row.Board_No} style={{ height: "100%", width: "100%", textDecoration: "none" }} onClick={() => { }}>{params.value}</Link>
                     </div>
                   )
                 },
