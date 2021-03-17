@@ -6,6 +6,7 @@ import { Checkbox, Chip, FormControl, FormControlLabel, Select, Snackbar } from 
 import CommentDrawer from './Items/CommentDrawer';
 import { AddPhotoAlternateOutlined, CommentOutlined, CreateOutlined, DeleteForeverOutlined } from '@material-ui/icons';
 import axios from 'axios';
+import CountList from './Items/CountList'
 
 class BoardRead extends Component {
     constructor(props) {
@@ -158,9 +159,22 @@ class BoardRead extends Component {
     /*RestAPI를 이용하여 데이터베이스의 값을 불러와서
     this.state.board_Data에 넣어주고있음. */
     databaseSetting = () => {
+        axios.patch("https://j-s-board-express-backend.herokuapp.com/ReadCountUp?Board_No=" + this.props.match.params.Board_No);
+
         // Board_No의 값을 key값으로 하여 데이터를 받아옴.
         axios.get('https://j-s-board-express-backend.herokuapp.com/BoardRead?Board_No=' + this.props.match.params.Board_No)
             .then((Response) => {
+                if (Response.data.Image_Name !== "") {
+                    let imageArray = [];
+                    const storageRef = firestore.firestore.storage().ref();
+                    const imageRef = storageRef.child('images/' + Response.data.Image_Name);
+
+                    imageRef.getDownloadURL().then(function (url) {
+                        imageArray.push(url);
+                    });
+                    this.setState({ imageUrl: imageArray });
+                } 
+
                 // 게시판의 테마에따라 보여지는 값이 달라지게 하기위함.
                 switch (Response.data.Board_Theme) {
                     case "FTB": this.setState({ board_Theme_Name: "자유게시판" });
@@ -193,6 +207,7 @@ class BoardRead extends Component {
     }
 
     render() {
+        
         // Firebase의 Storage특성상 속도가 느려서 0.5초의 시간을 줘서 이미지를 띄워주도록 하는 작업.
         setTimeout(() => {
             if (this.state.imageUrl.length !== 0 && this.state.mode !== "update") {
@@ -200,10 +215,9 @@ class BoardRead extends Component {
                 document.getElementById("imageTag").style.display = "block";
                 document.getElementById("board_Content").style.height = "70%";
             }
-        }, 500);
+        }, 1000);
 
         let updateButton;
-
         // 현재 로그인상태일시 수정버튼이 활성화 되도록 함.
         if (window.localStorage.getItem("LoginData") !== null) {
             if (this.state.board_Data.User_Id === JSON.parse(window.localStorage.getItem("LoginData")).uid) {

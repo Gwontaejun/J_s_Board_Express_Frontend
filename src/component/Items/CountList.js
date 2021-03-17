@@ -27,7 +27,6 @@ class CountList extends Component {
 
     axios.get('https://j-s-board-express-backend.herokuapp.com/CountList?Order_Type=' + orderType)
       .then((Response) => {
-        console.log("Response",Response);
         this.setState({ board_Data: Response.data });
       });
   }
@@ -44,22 +43,21 @@ class CountList extends Component {
               getRowId={(row) => row.Board_No}
               columns={[
                 {
-                  field: 'rowIndex', headerName: "순번", flex: 0.2, align: "right", sortable: false,
+                  field: 'rowIndex', headerName: "순번", flex: 0.2, headerAlign: "center", align: "center", sortable: false,
                   renderCell: (params) => (
-                    <div>
-                      {params.rowIndex + 1}
+                    <div style={{width:"100%"}}>
+                      <p>{params.rowIndex + 1}</p>
                     </div>
                   )
                 },
                 {
-                  field: 'Board_Title', headerName: "글 제목", flex: 0.5, sortable: false,
+                  field: 'Board_Title', headerName: "글 제목", flex: 0.8, sortable: false,
                   renderCell: (params) => (
                     <div style={{ height: "100%", width: "100%", textAlign: "left" }}>
                       <Link to={"/Read/" + params.row.Board_Code} style={{ height: "100%", width: "100%", textDecoration: "none" }} onClick={() => { }}>{params.value}</Link>
                     </div>
                   )
                 },
-                { field: this.props.orderType, headerName: this.props.headerName, flex: 0.3, headerAlign: "center", align: "center", sortable: false },
               ]}
               rows={this.state.board_Data}
               disableColumnMenu

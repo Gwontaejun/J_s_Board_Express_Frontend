@@ -26,7 +26,6 @@ class BoardWrite extends Component {
     componentWillMount() {
         axios.get('https://j-s-board-express-backend.herokuapp.com/BoardNoGet')
             .then((Response) => {
-                console.log("board_No", Response.data.Board_No);
                 this.setState({
                     board_No: Response.data.Board_No,
                 });
@@ -59,8 +58,7 @@ class BoardWrite extends Component {
 
     // 글 작성버튼을 눌렀을때 실행하는 함수.
     databaseWriteData = () => {
-        let Image_Name;
-        const Board_Code = this.state.board_Theme + "_" + (parseInt(this.state.Count[this.state.board_Theme + "_Count"]) + 1);
+        let Image_Name = "";
         const User_Id = JSON.parse(window.localStorage.getItem("LoginData")).uid;
         let User_Name;
         const Board_Theme = this.state.board_Theme;
@@ -73,7 +71,7 @@ class BoardWrite extends Component {
         // 이미지가 첨부되었는지 확인하기 위함.
         if (this.state.imageFile.name === undefined) {
             Image_Name = "";
-        } else Image_Name = Board_Code + "-" + this.state.imageFile.name;
+        } else Image_Name = this.state.board_No + "-" + this.state.imageFile.name;
 
 
         // 글 작성을 하는 작업(RestAPI를 이용해 database에 값을 저장하는 작업)
@@ -83,9 +81,10 @@ class BoardWrite extends Component {
                 Board_Theme: Board_Theme,
                 Board_Title: this.state.board_Title,
                 Board_Content: this.state.board_Content,
-                Board_WriteDate: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() +" "+ new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
+                Board_WriteDate: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
                 User_Id: User_Id,
                 User_Name: User_Name,
+                Image_Name: Image_Name,
             },
             {
                 headers: {
@@ -93,9 +92,11 @@ class BoardWrite extends Component {
                     'Accept': 'application/json'
                 }
             }).then(() => {
-                window.location.href = '/Theme/' + this.state.board_Theme;
+                if (Image_Name === "") {
+                    window.location.href = '/Theme/' + this.state.board_Theme;
+                }else this.fileUpload(Image_Name);
             })
-        
+
     }
 
     boardWriteEvent = () => {
