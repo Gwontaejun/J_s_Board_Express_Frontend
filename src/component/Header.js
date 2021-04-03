@@ -19,7 +19,7 @@ class Header extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     store.subscribe(function () {
       this.setState({ Text: store.getState().Text });
     }.bind(this));

@@ -18,7 +18,7 @@ class BoardList extends Component {
   /*React Life Cycle의 한부분으로
       렌더링이 되기전에 호출되는 메소드.
       렌더를 하기전에 this.firebaseSetting을 호출함.*/
-  componentWillMount() {
+  componentDidMount() {
     this.databaseSetting();
     store.subscribe(function () {
       this.setState({ mode: store.getState().mode });

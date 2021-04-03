@@ -23,7 +23,7 @@ class BoardWrite extends Component {
     }
 
 
-    componentWillMount() {
+    componentDidMount() {
         axios.get('https://j-s-board-express-backend.herokuapp.com/BoardNoGet')
             .then((Response) => {
                 this.setState({

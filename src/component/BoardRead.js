@@ -28,7 +28,7 @@ class BoardRead extends Component {
     }
 
     // 컴포넌트가 렌더 되기 전에 실행하는 함수. 
-    componentWillMount() {
+    componentDidMount() {
         this.databaseSetting();
     }
 

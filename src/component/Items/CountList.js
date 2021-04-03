@@ -11,7 +11,7 @@ class CountList extends Component {
   }
 
   // 컴포넌트가 렌더되기 전에 실행하는 함수.
-  componentWillMount() {
+  componentDidMount() {
     this.databaseSetting();
   }
 

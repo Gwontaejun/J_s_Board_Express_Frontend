@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Drawer, TextField, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, Drawer, Typography } from "@material-ui/core";
 import { CommentOutlined, CreateOutlined } from "@material-ui/icons";
 import axios from "axios";
 import React, { Component } from "react";
@@ -15,7 +15,7 @@ export default class CommentDrawer extends Component {
     }
 
     // 컴포넌트가 렌더되기 전에 실행하는 함수.
-    componentWillMount() {
+    componentDidMount() {
         this.databaseSetting();
     }
 

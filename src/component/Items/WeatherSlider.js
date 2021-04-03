@@ -15,7 +15,7 @@ export default class WeatherSlider extends Component {
     }
 
     // 컴포넌트가 렌더되기 전에 실행하는 함수.
-    componentWillMount() {
+    componentDidMount() {
         // 5개의 도시만 선정해서 날씨를 가져옴.
         this.weatherSetting("Seoul", "서울");
         this.weatherSetting("Busan", "부산");

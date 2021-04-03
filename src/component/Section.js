@@ -27,7 +27,7 @@ class Section extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         store.subscribe(function () {
             this.setState({ mode: store.getState().mode });
         }.bind(this));
