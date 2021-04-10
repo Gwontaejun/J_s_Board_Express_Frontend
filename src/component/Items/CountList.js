@@ -2,6 +2,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import store from '../store/store';
 
 class CountList extends Component {
   constructor(props) {
@@ -13,6 +14,9 @@ class CountList extends Component {
   // 컴포넌트가 렌더되기 전에 실행하는 함수.
   componentDidMount() {
     this.databaseSetting();
+    store.subscribe(function () {
+      this.setState({ board_Data: store.getState().count_List });
+    }.bind(this));
   }
 
   /*RestAPI를 이용하여 데이터베이스의 값을 불러와서
@@ -27,7 +31,8 @@ class CountList extends Component {
 
     axios.get('https://j-s-board-express-backend.herokuapp.com/CountList?Order_Type=' + orderType)
       .then((Response) => {
-        this.setState({ board_Data: Response.data });
+        // this.setState({ board_Data: Response.data });
+        store.dispatch({type:"countList", count_List:Response.data});
       });
   }
 

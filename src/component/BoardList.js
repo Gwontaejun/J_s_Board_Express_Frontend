@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import firestore from './store/fireStore';
 import './css/itemCss.css';
 import { Link } from 'react-router-dom';
 import store from './store/store';
@@ -20,7 +19,7 @@ class BoardList extends Component {
   componentDidMount() {
     this.dataBaseSetting();
     store.subscribe(function () {
-      this.setState({ mode: store.getState().mode });
+      this.setState({ board_Data: store.getState().board_Data });
     }.bind(this));
   }
 
@@ -41,8 +40,8 @@ class BoardList extends Component {
 
     // 게시판의 테마를 정하여 값을 불러오는 함수.(게시판 종류에 따라)
     axios.get('https://j-s-board-express-backend.herokuapp.com/BoardList?Board_Theme='+board_Theme)
-    .then((Response) => {
-      this.setState({ board_Data: Response.data });
+    .then((Response) => {      
+      store.dispatch({type:"boardList", board_Data:Response.data});
 
       // 게시판의 테마에따라 보여지는 값이 달라지게 하기위함.
       switch (board_Theme) {
