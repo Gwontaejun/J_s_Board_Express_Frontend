@@ -147,8 +147,8 @@ class BoardRead extends Component {
                         break;
                     case "ATB": this.setState({ board_Theme_Name: "홍보게시판" });
                         break;
+                    default: break;
                 }
-
                 this.setState({
                     board_Data: Response.data,
                     board_WriteDate: Response.data.Board_WriteDate,
@@ -215,7 +215,7 @@ class BoardRead extends Component {
                         </div>
                     </div>
                     <div className={"boardList_Bottom"}>
-                        <img style={{ display: "none", width: "40%", height: "30%" }} src={this.state.imageUrl} id="imageTag" />
+                        <img alt="" style={{ display: "none", width: "40%", height: "30%" }} src={this.state.imageUrl} id="imageTag" />
                         <textarea
                             readOnly name="board_Content" id="board_Content"
                             className={"content_Textarea"}

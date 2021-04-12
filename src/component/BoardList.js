@@ -53,6 +53,7 @@ class BoardList extends Component {
           break;
         case "ATB": this.setState({ board_Title: "홍보게시판", board_Desc: "이것좀 봐주세요~!" });
           break;
+        default: break;
       }
     });
   }

@@ -57,12 +57,12 @@ export default class WeatherSlider extends Component {
                     {this.state.weatherData.map((data) => {
                         return (
                             <div key={""}>
-                                <a style={{ textDecoration: "none", display: "flex" }}>
-                                    <img style={{ width: "15%", height: "15%", margin: "auto 0" }} src={'https://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png'} />
+                                <label style={{ textDecoration: "none", display: "flex" }}>
+                                    <img alt="" style={{ width: "15%", height: "15%", margin: "auto 0" }} src={'https://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png'} />
                                     <h3 style={{ color: this.props.color }}>
                                         {data.main.temp}°C({data.name})
                                     </h3>
-                                </a>
+                                </label>
                             </div>
                         )
                     })}

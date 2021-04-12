@@ -34,14 +34,6 @@ class Section extends Component {
     }
 
     render() {
-        let mode = this.state.mode;
-        let fontColor = "";
-        if (mode === true) {
-            fontColor = "black";
-        } else if (mode === false) {
-            fontColor = "white";
-        }
-
         return (
             <div className={"section"}>
                 <div className={"section_Item_Wraper"}>
